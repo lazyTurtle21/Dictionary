@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dictionary</title>
+    <link rel="shortcut icon" href="../html/icon.png"/>
+    <style>
+        body {
+            background-color: rgba(255, 255, 255,1.0);
+            font-family: "Palatino Linotype",serif;
+        }
+        .input_word {
+            width: 150px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: rgba(223, 228, 234,1.0);
+            padding: 12px 12px 12px 12px;
+            font-family: "Palatino Linotype",serif;
+        }
+        .input_word:focus {
+            outline: none;
+            box-shadow: 0.2rem 0.8rem 1.6rem rgba(206, 214, 224,1.0);
+        }
+        .form{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 15px;
+        }
+        .text_big{
+            color: rgba(87, 96, 111,1.0);
+            font-size: 23px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .form > *{
+            margin-bottom: 15px;
+        }
+        .find-btn{
+            height: 38px;
+            width: 47px;
+            font-family: "Palatino Linotype", sans-serif;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            background-color: rgba(47, 53, 66,1.0);
+            font-weight: 600;
+            color: rgba(206, 214, 224,1.0);
+        }
+        .find-btn:hover{
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <form class="form">
+        <span class="text_big">Word:</span>
+        <input type="text" name="word" aria-label="word" class="input_word">
+        <input type="submit" value="find" class="find-btn">
+    </form>
+</body>
+</html>

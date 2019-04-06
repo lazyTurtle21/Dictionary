@@ -1,28 +1,50 @@
 #include <iostream>
+#include <string>
 #include <boost/asio.hpp>
+#include <boost/format.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <fstream>
+
+#include "parse_json_dictionary.h"
 
 using namespace boost::asio;
 using ip::tcp;
 using std::string;
 using std::cout;
 using std::endl;
+using ptree = boost::property_tree::ptree;
+
+std::string read_html(const std::string &filename){
+    std::ifstream f(filename);
+    std::stringstream buf;
+    buf << f.rdbuf();
+    return buf.str();
+}
 
 
 class http_headers {
     std::string method;
     std::string url;
     std::string version;
-
     std::map<std::string, std::string> headers;
+    ptree dict1 = create_dictionary_from_json("../dictionaries/dictionary1.json");
+    std::string dict_html =  read_html("../html/dict.html");
+    std::string word_def_html = read_html("../html/get_word.html");
 
 public:
-
     std::string get_response() {
         std::stringstream ssOut;
 
-        if (url == "/index.html") {
-            std::string sHTML =
-                    "<html><body><h1>Hello World</h1><p>This is a web server in c++</p></body></html>";
+        if (url == "/dictionary") {
+            ssOut << "HTTP/1.1 200 OK" << std::endl;
+            ssOut << "content-type: text/html" << std::endl;
+            ssOut << "content-length: " << this->dict_html.length() << std::endl;
+            ssOut << std::endl;
+            ssOut << this->dict_html;
+        } else if (boost::starts_with(url, "/dictionary?word=")){
+            std::string sHTML = this->word_def_html;
+            std::string word = url.substr(url.find("word=") + 5);
+            sHTML = (boost::format(sHTML) % word % search_word(word, dict1)).str();
             ssOut << "HTTP/1.1 200 OK" << std::endl;
             ssOut << "content-type: text/html" << std::endl;
             ssOut << "content-length: " << sHTML.length() << std::endl;
@@ -51,7 +73,7 @@ public:
         return 0;
     }
 
-    void on_read_header(std::string line) {
+    void on_read_header(const std::string& line) {
         std::stringstream ssHeader(line);
         std::string headerName;
         std::getline(ssHeader, headerName, ':');
@@ -66,7 +88,6 @@ public:
         ssRequestLine >> method;
         ssRequestLine >> url;
         ssRequestLine >> version;
-
         std::cout << "request for resource: " << url << std::endl;
     }
 };
@@ -75,8 +96,8 @@ class session {
     boost::asio::streambuf buff;
     http_headers headers;
 
-    static void read_body(std::shared_ptr<session> pThis) {
-        int nbuffer = 1000;
+    static void read_body(const std::shared_ptr<session>& pThis) {
+        size_t nbuffer = 1000;
         std::shared_ptr<std::vector<char>> bufptr =
                 std::make_shared<std::vector<char>>(nbuffer);
         boost::asio::async_read(pThis->socket, boost::asio::buffer(*bufptr, nbuffer),
@@ -84,7 +105,7 @@ class session {
                                 });
     }
 
-    static void read_next_line(std::shared_ptr<session> pThis) {
+    static void read_next_line(const std::shared_ptr<session>& pThis) {
         boost::asio::async_read_until(pThis->socket, pThis->buff, '\r',
                                       [pThis](const std::error_code &e, std::size_t s) {
                                           std::string line, ignore;
@@ -112,7 +133,7 @@ class session {
                                       });
     }
 
-    static void read_first_line(std::shared_ptr<session> pThis) {
+    static void read_first_line(const std::shared_ptr<session>& pThis) {
         boost::asio::async_read_until(pThis->socket, pThis->buff, '\r',
                                       [pThis](const std::error_code &e, std::size_t s) {
                                           std::string line, ignore;
@@ -125,13 +146,10 @@ class session {
     }
 
 public:
-
     ip::tcp::socket socket;
-
     session(io_service &io_service)
             : socket(io_service) {
     }
-
     static void interact(std::shared_ptr<session> pThis) {
         read_first_line(pThis);
     }
@@ -148,14 +166,13 @@ void accept_and_run(ip::tcp::acceptor &acceptor, io_service &io_service) {
                           });
 }
 
+
 int main(int argc, const char *argv[]) {
     io_service io_service;
     ip::tcp::endpoint endpoint{ip::tcp::v4(), 8080};
     ip::tcp::acceptor acceptor{io_service, endpoint};
-
     acceptor.listen();
     accept_and_run(acceptor, io_service);
-
     io_service.run();
     return 0;
 }
