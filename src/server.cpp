@@ -3,6 +3,7 @@
 #include <boost/asio.hpp>
 #include <boost/format.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 
 #include "parse_json_dictionary.h"
@@ -44,7 +45,7 @@ public:
         } else if (boost::starts_with(url, "/dictionary?word=")){
             std::string sHTML = this->word_def_html;
             std::string word = url.substr(url.find("word=") + 5);
-            sHTML = (boost::format(sHTML) % word % search_word(word, dict1)).str();
+            sHTML = (boost::format(sHTML) % word % search_word(boost::algorithm::to_lower_copy(word), dict1)).str();
             ssOut << "HTTP/1.1 200 OK" << std::endl;
             ssOut << "content-type: text/html" << std::endl;
             ssOut << "content-length: " << sHTML.length() << std::endl;
