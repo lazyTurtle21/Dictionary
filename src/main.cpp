@@ -4,7 +4,7 @@
 #include <boost/property_tree/ptree.hpp>
 
 #include "server.cpp"
-#include "parse_json_dictionary.h"
+#include "../inc/parse_json_dictionary.h"
 
 using namespace boost::asio;
 using ip::tcp;

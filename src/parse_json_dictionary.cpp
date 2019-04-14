@@ -1,4 +1,4 @@
-#include "parse_json_dictionary.h"
+#include "../inc/parse_json_dictionary.h"
 
 boost::property_tree::ptree create_dictionary_from_json(const std::string& filename){
     // Create a root

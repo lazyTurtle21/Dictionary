@@ -9,7 +9,7 @@ set(CMAKE_SOURCE_DIR src)
 find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(SOURCE_FILES ${CMAKE_SOURCE_DIR}/server.cpp ${CMAKE_SOURCE_DIR}/parse_json_dictionary.cpp ${CMAKE_SOURCE_DIR}/parse_json_dictionary.h)
+set(SOURCE_FILES ${CMAKE_SOURCE_DIR}/server.cpp ${CMAKE_SOURCE_DIR}/parse_json_dictionary.cpp ${CMAKE_SOURCE_DIR}/parse_json_dictionary.h src/http_headers.cpp inc/http_headers.hpp src/session.cpp inc/session.hpp)
 add_executable(dictionary ${SOURCE_FILES})
 target_link_libraries(dictionary Boost::system)
 
