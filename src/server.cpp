@@ -3,6 +3,7 @@
 #include <boost/asio.hpp>
 #include <boost/format.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include "../inc/http_headers.hpp"
 #include "../inc/parse_json_dictionary.h"
