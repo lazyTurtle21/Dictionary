@@ -21,10 +21,14 @@ class Session {
 
 public:
     boost::asio::ip::tcp::socket socket;
+    boost::asio::io_context::strand strand;
 
-    Session(boost::asio::io_service &io_service)
-            : socket(io_service) {
+    Session(boost::asio::io_context &io_context)
+            : socket(io_context),
+            strand(io_context){
     }
+
+
 
     static void interact(const std::shared_ptr<Session> &pThis) {
         read_first_line(pThis);

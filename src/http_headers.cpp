@@ -58,7 +58,6 @@ void HttpHeaderds::on_read_header(const std::string &line) {
     std::stringstream ssHeader(line);
     std::string headerName;
     std::getline(ssHeader, headerName, ':');
-
     std::string value;
     std::getline(ssHeader, value);
     headers[headerName] = value;
