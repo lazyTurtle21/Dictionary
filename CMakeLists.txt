@@ -2,17 +2,17 @@ cmake_minimum_required(VERSION 3.10)
 project(dictionary)
 
 set(CMAKE_CXX_STANDARD 14)
+set(Boost_LIBRARY_DIR C:/msys64/mingw64/lib/)
+set(Boost_INCLUDE_DIR C:/msys64/mingw64/include/)
 
-set(CMAKE_SOURCE_DIR src)
 find_package(Threads REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
-include_directories(${Boost_INCLUDE_DIRS})
 
-set(SOURCE_FILES ${CMAKE_SOURCE_DIR}/server.cpp ${CMAKE_SOURCE_DIR}/parse_json_dictionary.cpp  src/http_headers.cpp inc/http_headers.hpp src/session.cpp inc/session.hpp)
-add_executable(dictionary ${SOURCE_FILES})
+
+add_executable(dictionary src/main.cpp src/connection.cpp inc/connection.hpp src/reply.cpp inc/structs.hpp src/response.cpp inc/response.hpp src/request_parser.cpp inc/request_parser.hpp src/server.cpp inc/server.hpp src/parse_json_dictionary.cpp inc/parse_json_dictionary.h)
 target_link_libraries(dictionary Boost::system Threads::Threads)
 
-if(WIN32)
+if (WIN32)
     target_link_libraries(dictionary wsock32 ws2_32)
     target_link_libraries(dictionary wsock32 ws2_32)
-endif()
+endif ()

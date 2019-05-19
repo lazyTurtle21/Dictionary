@@ -10,14 +10,14 @@ void Session::read_body(const std::shared_ptr<Session> &pThis) {
     std::shared_ptr<std::vector<char>> bufptr =
             std::make_shared<std::vector<char>>(nbuffer);
     boost::asio::async_read(pThis->socket, boost::asio::buffer(*bufptr, nbuffer),
-                            boost::asio::bind_executor(pThis->strand,
+
                             [pThis](const std::error_code &e, std::size_t s) {
-                            }));
+                            });
 }
 
 void Session::read_next_line(const std::shared_ptr<Session> &pThis) {
     boost::asio::async_read_until(pThis->socket, pThis->buff, '\r',
-                                  boost::asio::bind_executor(pThis->strand,
+
                                   [pThis](const std::error_code &e, std::size_t s) {
                                       std::string line, ignore;
                                       std::istream stream{&pThis->buff};
@@ -42,12 +42,12 @@ void Session::read_next_line(const std::shared_ptr<Session> &pThis) {
                                       } else {
                                           pThis->read_next_line(pThis);
                                       }
-                                  }));
+                                  });
 }
 
 void Session::read_first_line(const std::shared_ptr<Session> &pThis) {
     boost::asio::async_read_until(pThis->socket, pThis->buff, '\r',
-                                  boost::asio::bind_executor(pThis->strand,
+
                                   [pThis](const std::error_code &e, std::size_t s) {
                                       std::string line, ignore;
                                       std::istream stream{&pThis->buff};
@@ -55,7 +55,7 @@ void Session::read_first_line(const std::shared_ptr<Session> &pThis) {
                                       std::getline(stream, ignore, '\n');
                                       pThis->headers.on_read_request_line(line);
                                       pThis->read_next_line(pThis);
-                                  }));
+                                  });
 }
 
 
