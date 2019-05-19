@@ -1,7 +1,3 @@
-//
-// Created by tymchenko on 14.04.2019.
-//
-
 #ifndef DICTIONARY_HTTP_HEADERS_HPP
 #define DICTIONARY_HTTP_HEADERS_HPP
 
@@ -11,7 +7,6 @@
 #include "parse_json_dictionary.h"
 
 using ptree = boost::property_tree::ptree;
-
 
 std::string read_html(const std::string &filename);
 
