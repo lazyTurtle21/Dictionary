@@ -1,9 +1,7 @@
-//
-// Created by tymchenko on 14.04.2019.
-//
+#include <boost/algorithm/string.hpp>
+#include <iostream>
 
 #include "../inc/http_headers.hpp"
-#include <boost/algorithm/string/predicate.hpp>
 
 
 std::string read_html(const std::string &filename) {
@@ -24,7 +22,7 @@ std::string HttpHeaderds::get_response() {
         ssOut << this->dict_html;
     } else if (boost::starts_with(url, "/dictionary?word=")) {
         std::string sHTML = this->word_def_html;
-        std::string word = url.substr(url.find("word=") + 5);
+        std::string word = boost::algorithm::to_lower_copy(url.substr(url.find("word=") + 5));
         sHTML = (boost::format(sHTML) % word % search_word(word, dict1)).str();
         ssOut << "HTTP/1.1 200 OK" << std::endl;
         ssOut << "content-type: text/html" << std::endl;
@@ -58,7 +56,6 @@ void HttpHeaderds::on_read_header(const std::string &line) {
     std::stringstream ssHeader(line);
     std::string headerName;
     std::getline(ssHeader, headerName, ':');
-
     std::string value;
     std::getline(ssHeader, value);
     headers[headerName] = value;
