@@ -7,7 +7,11 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <map>
+#include <vector>
+
 
 boost::property_tree::ptree create_dictionary_from_json(const std::string& filename);
 std::string search_word(const std::string& word, const boost::property_tree::ptree& dictionary);
+std::map<std::string, std::vector<std::string>> search_word_in_dict2(const std::string &word, const boost::property_tree::ptree &dictionary);
 #endif //TRY_BOOST_PARSE_JSON_DICTIONARY_H

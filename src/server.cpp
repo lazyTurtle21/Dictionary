@@ -29,7 +29,7 @@
 
         void server::run() {
             std::vector<std::thread> threads;
-            for (std::size_t i = 0; i < 4; ++i) {
+            for (std::size_t i = 0; i < threads_num; ++i) {
                 threads.emplace_back([&] { io_context_.run(); });
             }
             for (auto &thread : threads)

@@ -4,7 +4,9 @@
 #include <string>
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/predicate.hpp>
-#include <c++/8.3.0/iostream>
+#include <iostream>
+#include <boost/algorithm/string.hpp>
+
 #include "../inc/structs.hpp"
 
 std::string read_html(const std::string &filename) {
@@ -17,7 +19,7 @@ std::string read_html(const std::string &filename) {
 response::response() = default;
 
 void response::handle_request(const request &req, reply &rep) {
-    std::string html_res = "";
+    std::string html_res;
 
     if (req.uri == "/dictionary") {
         rep.status = reply::ok;
@@ -25,8 +27,10 @@ void response::handle_request(const request &req, reply &rep) {
     } else if (boost::starts_with(req.uri, "/dictionary?word=")) {
         rep.status = reply::ok;
         html_res = this->word_def_html;
+        //ABALONES
         std::string word = req.uri.substr(req.uri.find("word=") + 5);
-        html_res = (boost::format(html_res) % word % search_word(word, dict1)).str();
+        html_res = (boost::format(html_res) % word % search_word(boost::algorithm::to_lower_copy(word), dict1)).str();
+//        std::cout << "hi hello" << search_word_in_dict2("ABALONE", dict2);
     } else {
         rep.status = reply::not_found;
         html_res = "<html><body><h1>404 Not Found</h1><p>There's nothing here.</p></body></html>";

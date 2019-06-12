@@ -16,7 +16,8 @@ class response :
         private boost::noncopyable {
     std::string dict_html = read_html("../html/dict.html");
     std::string word_def_html = read_html("../html/get_word.html");
-    ptree dict1 = create_dictionary_from_json("../dictionaries/dictionary1.json");
+    ptree dict1 = create_dictionary_from_json("../dictionaries/dictionary1/dictionary1.json");
+    ptree dict2 = create_dictionary_from_json("../dictionaries/dictionary2/DA.json");
 public:
 
     explicit response();
