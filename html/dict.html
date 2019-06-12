@@ -1,61 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Dictionary</title>
+    <title>Slavik</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
     <style>
-        body {
-            background-color: rgba(255, 255, 255,1.0);
-            font-family: "Palatino Linotype",serif;
+
+        body{
+            background: #242943;
+            font-family: 'Roboto Mono', monospace;
         }
-        .input_word {
-            width: 150px;
-            border: 2px solid transparent;
-            border-radius: 4px;
-            font-size: 16px;
-            background-color: rgba(223, 228, 234,1.0);
-            padding: 12px 12px 12px 12px;
-            font-family: "Palatino Linotype",serif;
+        .inner{
+            margin: 0 auto;
+            width: calc(100% - 6em);
+            transition: opacity 1.5s ease, transform 0.5s ease-out, filter 0.5s ease, -webkit-filter 0.5s ease;
+            padding: 0 !important;
+            position: relative;
+            z-index: 2;
         }
-        .input_word:focus {
-            outline: none;
-            box-shadow: 0.2rem 0.8rem 1.6rem rgba(206, 214, 224,1.0);
+
+        .content{
+            display: flex;
+            align-items: center;
+            margin: 0 0 2em 0;
         }
+
         .form{
+            width: 100%;
+        }
+
+        @media screen and (max-width: 1680px) {
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                box-sizing: border-box;
+                align-items: stretch;
+            }
+        }
+        .test{
+            height: 2.75em;
+            background: rgba(212, 212, 255, 0.035);
+            border: none;
+            border-radius: 0;
+            color: white;
+            display: block;
+            outline: 0;
+            padding: 0 1em;
+            text-decoration: none;
+            width: 770px;
+            font-size: 31px;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 1px;
+        }
+        .primary {
+            font-size: 23px;
+            height: 3.5em;
+        }
+        .button.primary {
+            background-color: #ffffff;
+            box-shadow: none;
+            color: #242943;
+            letter-spacing: 0.25em;
+            line-height: 3.5em;
+            text-align: center;
+            text-decoration: none;
+            text-transform: uppercase;
+            white-space: nowrap;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+            display: inline-block;
+            margin-left: 40px;
+            padding: 0 1.75em 2px;
+            width: 300px;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        #wrapper {
+            padding-top: 233px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            margin-left: 15px;
+            justify-content: space-around;
+            height: calc(100vh - 250px);
+            transition: all .6s ease-out;
         }
-        .text_big{
-            color: rgba(87, 96, 111,1.0);
-            font-size: 23px;
+        #header{
+            background-color: transparent;
+            box-shadow: none;
+            position: absolute;
+            display: flex;
             font-weight: 600;
-            margin-top: 10px;
+            height: 3.25em;
+            left: 0;
+            letter-spacing: 0.25em;
+            line-height: 3.25em;
+            margin: 0;
+            text-transform: uppercase;
+            top: 0;
+            width: 100%;
+            z-index: 10000;
         }
-        .form > *{
-            margin-bottom: 15px;
+        .row{
+            display: flex;
+            justify-content: center;
         }
-        .find-btn{
-            height: 38px;
-            width: 47px;
-            font-family: "Palatino Linotype", sans-serif;
-            border: 2px solid transparent;
-            border-radius: 4px;
-            background-color: rgba(47, 53, 66,1.0);
-            font-weight: 600;
-            color: rgba(206, 214, 224,1.0);
+
+        .logo {
+            border: 0;
+            display: inline-block;
+            font-size: 0.8em;
+            height: inherit;
+            line-height: inherit;
+            color: white;
+            text-decoration: none;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 6px;
+            margin-top: 7px;
         }
-        .find-btn:hover{
-            cursor: pointer;
+        .logo__text {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            background-color: #ffffff;
+            color: #242943;
+            display: inline-block;
+            line-height: 1.65em;
+            margin-right: 0.325em;
+            font-family: 'Roboto Mono', monospace;
+            padding: 4px 6px 4px 10px;
+            margin-left: 16px;
         }
     </style>
 </head>
-<body>
-    <form class="form">
-        <span class="text_big">Word:</span>
-        <input type="text" name="word" aria-label="word" class="input_word">
-        <input type="submit" value="find" class="find-btn">
-    </form>
+<body class="is-preload">
+
+<!-- Wrapper -->
+<div id="wrapper">
+
+    <!-- Header -->
+    <header id="header" class="alt">
+        <a href="dict.html" class="logo"><strong class="logo__text">SLAVIK</strong>   Expand your vocab</a>
+    </header>
+
+
+    <!-- Banner -->
+    <section id="banner" class="major">
+        <div class="inner form">
+            <div class="content">
+                <form class="form">
+                    <div class="row gtr-uniform">
+                        <div class="col-8 col-12-xsmall">
+                            <input class="test input_word" type="text" name="word" id="search" value="" placeholder="Enter a word, e.g.: Princess" />
+                        </div>
+                        <div class="col-4 col-12-xsmall">
+                            <input id="button" type="submit" value="find" class="find-btn button primary fit">
+                        </div>
+                        <img src="" id="img" alt="">
+                    </div>
+                    </form>
+                </div>
+            </div>
+    </section>
+
+    <section id="one">
+        <div class="inner">
+
+            <ul id="definitions" class="result-item"></ul>
+
+        </div>
+
+    </section>
+
+
+</div>
 </body>
 </html>
