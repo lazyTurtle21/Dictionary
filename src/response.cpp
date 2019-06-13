@@ -27,10 +27,18 @@ void response::handle_request(const request &req, reply &rep) {
     } else if (boost::starts_with(req.uri, "/dictionary?word=")) {
         rep.status = reply::ok;
         html_res = this->word_def_html;
-        //ABALONES
         std::string word = req.uri.substr(req.uri.find("word=") + 5);
-        html_res = (boost::format(html_res) % word % search_word(boost::algorithm::to_lower_copy(word), dict1)).str();
-//        std::cout << "hi hello" << search_word_in_dict2("ABALONE", dict2);
+        std::string lower_word = boost::algorithm::to_lower_copy(word);
+        std::string upper_word = boost::algorithm::to_upper_copy(word);
+
+        html_res = (boost::format(html_res) % word % search_word(lower_word, dict1)).str(); // VSTAVLYAT HERE
+        if (!word.empty()){
+            auto dict_to_search = dicts2[upper_word[0] - 'A'];
+            auto results = search_word_in_dict2(upper_word, dict_to_search);
+            std::cout << results[0] << "\n";   // DEFINITIONS
+            std::cout << results[1] << "\n";   // ANTONYMS
+            std::cout << results[2] << "\n";   // SYNONYMS
+        }
     } else {
         rep.status = reply::not_found;
         html_res = "<html><body><h1>404 Not Found</h1><p>There's nothing here.</p></body></html>";

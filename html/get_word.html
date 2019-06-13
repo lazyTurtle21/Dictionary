@@ -1,20 +1,178 @@
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
+
     <title>Dictionary</title>
+
     <style>
-        body{
-            background-color: rgba(255, 255, 255,1.0);
-            font-family: "Palatino Linotype",serif;
+
+        body {
+            background: #242943;
+            font-family: 'Roboto Mono', monospace;
         }
-        p{
-            font-size: 14px;
+
+        .inner {
+            margin: 0 auto;
+            transition: opacity 1.5s ease, transform 0.5s ease-out, filter 0.5s ease, -webkit-filter 0.5s ease;
+            padding: 0 !important;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content {
+            display: flex;
+            align-items: center;
+            margin: 0 0 2em 0;
+        }
+
+
+        @media screen and (max-width: 1680px) {
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                box-sizing: border-box;
+                align-items: stretch;
+            }
+        }
+
+        #wrapper {
+            padding-top: 233px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: calc(100vh - 250px);
+            transition: all .6s ease-out;
+        }
+
+        #header {
+            background-color: transparent;
+            box-shadow: none;
+            position: absolute;
+            display: flex;
+            font-weight: 600;
+            height: 3.25em;
+            left: 0;
+            letter-spacing: 0.25em;
+            line-height: 3.25em;
+            margin: 0;
+            text-transform: uppercase;
+            top: 0;
+            z-index: 10000;
+        }
+
+        .row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo {
+            border: 0;
+            display: inline-block;
+            font-size: 0.8em;
+            height: inherit;
+            line-height: inherit;
+            color: white;
+            text-decoration: none;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 6px;
+            margin-top: 7px;
+        }
+
+        .logo__text {
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            background-color: #ffffff;
+            color: #242943;
+            display: inline-block;
+            line-height: 1.65em;
+            margin-right: 0.325em;
+            font-family: 'Roboto Mono', monospace;
+            padding: 4px 6px 4px 10px;
+            margin-left: 16px;
+        }
+        #dataStringHidden{
+            display: none;
+        }
+
+        ul {
+            list-style: disc;
+            margin: 0 0 2em 0;
+            padding-left: 1em;
+        }
+        .result-item {
+            margin-bottom: 50px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #ffffff;
+            font-weight: 600;
+            line-height: 1.65;
+            margin: 0 0 1em 0;
+        }
+        h1 {
+            font-size: 2.5em;
+        }
+        .the-word {
+            color: #0088ff;
+        }
+        h1::after {
+            content: '';
+            background-color: #ffffff;
+            display: block;
+            height: 2px;
+            margin: 0.325em 0 0.5em 0;
+        }
+        ul li {
+            padding-left: 0.5em;
         }
     </style>
 </head>
 <body>
-    <h2> %1% </h2>
-    <h4>Definition from dictionary no. 1: </h4>
-    <p> %2% </p>
+%1%
+%2%
+
+<div id="wrapper">
+
+    <header id="header" class="alt">
+        <a href="dict.html" class="logo"><strong class="logo__text">SLAVIK</strong> Expand your vocab</a>
+    </header>
+
+
+    <section id="banner" class="major">
+        <div class="inner">
+            <div class="content">
+                <ul id="definitions" class="result-item">
+
+                </ul>
+            </div>
+        </div>
+    </section>
+
+</div>
 </body>
+<script>
+    let text = document.getElementById("dataStringHidden").innerHTML;
+    let list = document.getElementById("definitions");
+    if (text[0] == '1' || text[1] == '1') {
+        let currentDefNum = 1;
+        let start = 1;
+        let end = 1;
+
+        while (end !== -1) {
+            start = end;
+            end = text.indexOf((currentDefNum + 1) + '.');
+            let listItem = document.createElement('li');
+            listItem.innerHTML = text.slice(start + 2, end);
+            list.appendChild(listItem);
+            currentDefNum += 1;
+        }
+    } else {
+        let listItem = document.createElement('li');
+        listItem.innerHTML = text;
+        list.appendChild(listItem);
+    }
+</script>
+
 </html>
