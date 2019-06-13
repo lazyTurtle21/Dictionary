@@ -21,11 +21,9 @@ std::string search_word(const std::string &word, const ptree &dictionary) {
 }
 
 
-std::vector<std::string> search_word_in_dict2
-        (const std::string &word, const ptree &dictionary) {
-
+std::vector<std::string> search_word_in_dict2(const std::string &word, const ptree &dictionary) {
     boost::optional<const ptree&> child = dictionary.get_child_optional(word);
-    if( !child ){
+    if(!child){
         return std::vector<std::string>(3);
     }
 

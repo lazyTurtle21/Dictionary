@@ -4,6 +4,8 @@
 
 #include <string>
 #include <boost/noncopyable.hpp>
+#include <boost/locale.hpp>
+
 #include "parse_json_dictionary.h"
 #include "read_functions.h"
 
@@ -19,6 +21,7 @@ class response :
     std::string word_def_html = read_html("../html/get_word.html");
     ptree dict1 = create_dictionary_from_json("../dictionaries/dictionary1/dictionary1.json");
     std::vector<ptree> dicts2 = find_json_dictionaries("../dictionaries/dictionary2/");
+
 public:
 
     explicit response();
