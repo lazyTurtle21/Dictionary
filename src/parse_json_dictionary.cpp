@@ -40,7 +40,7 @@ std::vector<std::string> search_word_in_dict2(const std::string &word, const ptr
                                         BOOST_FOREACH(auto &y, vvalues) {
                                                         result += y.second.get<std::string>("") + " ";}
                                     } else {
-                                        result += value + " ";
+                                        result += value + ",";
                                     }
                      }
                     results.push_back(result);
