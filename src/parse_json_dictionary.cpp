@@ -1,6 +1,8 @@
 #include "../inc/parse_json_dictionary.h"
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
+#include <boost/optional/optional.hpp>
+
 #include <iostream>
 
 using ptree = boost::property_tree::ptree;
@@ -21,7 +23,13 @@ std::string search_word(const std::string &word, const ptree &dictionary) {
 
 std::vector<std::string> search_word_in_dict2
         (const std::string &word, const ptree &dictionary) {
-    const ptree &word_in_dict = dictionary.get_child(boost::algorithm::to_upper_copy(word));
+
+    boost::optional<const ptree&> child = dictionary.get_child_optional(word);
+    if( !child ){
+        return std::vector<std::string>(3);
+    }
+
+    const ptree &word_in_dict = dictionary.get_child(word);
     std::vector<std::string> results;
     BOOST_FOREACH(auto &v, word_in_dict) {
                     const ptree &key = word_in_dict.get_child(v.first);
