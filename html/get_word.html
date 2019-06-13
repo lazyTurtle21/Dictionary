@@ -1,21 +1,103 @@
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>
-
     <title>Dictionary</title>
 
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <!--    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono' rel='stylesheet' type='text/css'>-->
+    <link href='https://fonts.googleapis.com/css?family=Fira+Mono' rel='stylesheet' type='text/css'>
     <style>
+        /*
+ CSS for the main interaction
+*/
+        .tabset > input[type="radio"] {
+            position: absolute;
+            left: -200vw;
+            color: white;
+        }
+
+        .tabset .tab-panel {
+            display: none;
+        }
+
+        .tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
+        .tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
+        .tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
+        .tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
+        .tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
+        .tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6) {
+            display: block;
+        }
+
+        /*
+         Styling
+        */
+        body {
+            font: 16px/1.5em 'Fira Mono', monospace;;
+            color: white;
+            font-weight: 300;
+        }
+
+        .tabset > label {
+            position: relative;
+            display: inline-block;
+            padding: 15px 15px 25px;
+            border: 3px solid transparent;
+            border-bottom: 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .tabset > label::after {
+            content: "";
+            position: absolute;
+            left: 15px;
+            bottom: 10px;
+            width: 22px;
+            height: 4px;
+            background: #8d8d8d;
+        }
+
+        .tabset > label:hover,
+        .tabset > input:focus + label {
+            color: #9bf1ff;
+        }
+
+        .tabset > label:hover::after,
+        .tabset > input:focus + label::after,
+        .tabset > input:checked + label::after {
+            background: #9bf1ff;
+        }
+
+        .tabset > input:checked + label {
+            border-color: white;
+            border-bottom: 1px solid #fff;
+            margin-bottom: -1px;
+        }
+
+        .tab-panel {
+            padding: 30px 0;
+            border-top: 3px solid #ccc;
+        }
+
+        /*
+         Demo purposes only
+        */
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
 
         body {
             background: #242943;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Fira Mono', monospace;
         }
 
         .inner {
             margin: 0 auto;
+            width: calc(1560px - 20em);
             transition: opacity 1.5s ease, transform 0.5s ease-out, filter 0.5s ease, -webkit-filter 0.5s ease;
             padding: 0 !important;
             position: relative;
@@ -24,30 +106,21 @@
 
         .content {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             margin: 0 0 2em 0;
         }
 
 
-        @media screen and (max-width: 1680px) {
-            .row {
-                display: flex;
-                flex-wrap: wrap;
-                box-sizing: border-box;
-                align-items: stretch;
-            }
-        }
 
-        #wrapper {
-            padding-top: 233px;
+        .wrapper {
+            padding-top: 180px;
             display: flex;
             flex-direction: column;
             justify-content: space-around;
-            height: calc(100vh - 250px);
             transition: all .6s ease-out;
         }
 
-        #header {
+        .header {
             background-color: transparent;
             box-shadow: none;
             position: absolute;
@@ -60,13 +133,10 @@
             margin: 0;
             text-transform: uppercase;
             top: 0;
+            width: 800px;
             z-index: 10000;
         }
 
-        .row {
-            display: flex;
-            justify-content: center;
-        }
 
         .logo {
             border: 0;
@@ -76,7 +146,7 @@
             line-height: inherit;
             color: white;
             text-decoration: none;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Fira Mono', monospace;
             letter-spacing: 6px;
             margin-top: 7px;
         }
@@ -88,11 +158,16 @@
             display: inline-block;
             line-height: 1.65em;
             margin-right: 0.325em;
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'Fira Mono', monospace;
             padding: 4px 6px 4px 10px;
             margin-left: 16px;
         }
-        #dataStringHidden{
+
+        .logo__text:hover{
+            background-color: #9bf1ff;
+        }
+
+        .hiddenData{
             display: none;
         }
 
@@ -114,65 +189,150 @@
         h1 {
             font-size: 2.5em;
         }
+        h1 {
+            font-size: 1.9em;
+        }
         .the-word {
             color: #0088ff;
         }
-        h1::after {
-            content: '';
-            background-color: #ffffff;
-            display: block;
-            height: 2px;
-            margin: 0.325em 0 0.5em 0;
-        }
         ul li {
             padding-left: 0.5em;
+            color: white;
+            margin-bottom: 2em;
+            line-height: 1.7em;
+            text-align: justify;
         }
     </style>
 </head>
 <body>
-%1%
-%2%
 
-<div id="wrapper">
+<div class="wrapper">
 
-    <header id="header" class="alt">
-        <a href="dict.html" class="logo"><strong class="logo__text">SLAVIK</strong> Expand your vocab</a>
+    <!-- Header -->
+    <header class="header alt">
+        <a href="/dictionary" class="logo"><strong class="logo__text">SLAVIK</strong> Expand your vocab</a>
     </header>
 
+    <p id="def1" class="hiddenData"> %2% </p>
+    <p id="def2" class="hiddenData"> %3% </p>
+    <p id="def3" class="hiddenData"> %4% </p>
+    <p id="def4" class="hiddenData"> %5% </p>
 
-    <section id="banner" class="major">
+    <!-- Banner -->
+    <section class="banner major">
         <div class="inner">
-            <div class="content">
-                <ul id="definitions" class="result-item">
+            <div class="tabset">
+                <!-- Tab 1 -->
+                <input type="radio" name="tabset" id="tab1" aria-controls="marzen" checked>
+                <label for="tab1">Dictionary 1</label>
+                <!-- Tab 2 -->
+                <input type="radio" name="tabset" id="tab2" aria-controls="rauchbier">
+                <label for="tab2">Dictionary 2</label>
+                <!-- Tab 3 -->
 
-                </ul>
+                <div class="tab-panels">
+                    <section id="marzen" class="tab-panel">
+                        <div class="content">
+                            <h1>Definitions of <span class="the-word"> %1% </span></h1>
+                            <ul id="definitions1" class="result-item">
+                            </ul>
+                        </div>
+                    </section>
+                    <section id="rauchbier" class="tab-panel">
+                        <div class="content">
+                            <h1>Definitions of <span class="the-word"> %1% </span></h1>
+                            <ul id="definitions2" class="result-item">
+                            </ul>
+
+                            <h2 id="synoTitle">synonims</h2>
+                            <ul id="syno" class="result-item">
+                            </ul>
+
+                            <h2 id="antoTitle">antonims</h2>
+                            <ul id="anto" class="result-item">
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+
             </div>
         </div>
     </section>
 
 </div>
-</body>
 <script>
-    let text = document.getElementById("dataStringHidden").innerHTML;
-    let list = document.getElementById("definitions");
-    if (text[0] == '1' || text[1] == '1') {
-        let currentDefNum = 1;
-        let start = 1;
-        let end = 1;
 
-        while (end !== -1) {
-            start = end;
-            end = text.indexOf((currentDefNum + 1) + '.');
+    dict1=()=> {
+        let text = document.getElementById("def1").innerHTML;
+        let list = document.getElementById("definitions1");
+        if (text[0] == '1' || text[1] == '1') {
+            let currentDefNum = 1;
+            let start = 1;
+            let end = 1;
+
+            while (end !== -1) {
+                start = end;
+                end = text.indexOf((currentDefNum + 1) + '.');
+                let listItem = document.createElement('li');
+                listItem.innerHTML = text.slice(start + 2, end);
+                list.appendChild(listItem);
+                currentDefNum += 1;
+            }
+        } else {
             let listItem = document.createElement('li');
-            listItem.innerHTML = text.slice(start + 2, end);
+            listItem.innerHTML = text;
             list.appendChild(listItem);
-            currentDefNum += 1;
         }
-    } else {
-        let listItem = document.createElement('li');
-        listItem.innerHTML = text;
-        list.appendChild(listItem);
-    }
-</script>
+    };
+    dict2=()=> {
+        let def = document.getElementById("def2").innerHTML;
+        let list = document.getElementById("definitions2");
+        let defArray = def.split("  ");
+        defArray.forEach((el)=>{
+            if (el.length > 0 ){
+                let listItem = document.createElement('li');
+                listItem.innerHTML = el;
+                list.appendChild(listItem);
+            }
+        });
+    };
+    synonims=()=>{
+        let syn = document.getElementById("def4").innerHTML;
+        if (syn.length > 2) {
+            let list = document.getElementById("syno");
+            let defArray = syn.split(",");
+            defArray.forEach((el) => {
+                if (el.trim().length > 2) {
+                    let listItem = document.createElement('li');
+                    listItem.innerHTML = el;
+                    list.appendChild(listItem);
+                }
+            });
+        }else {
+            document.getElementById("synoTitle").style.display = "none";
+        }
+    };
 
+    antonims=()=>{
+        let syn = document.getElementById("def3").innerHTML;
+        if (syn.length > 2) {
+            let list = document.getElementById("anto");
+            let defArray = syn.split(",");
+            defArray.forEach((el) => {
+                if (el.trim().length > 2) {
+                    let listItem = document.createElement('li');
+                    listItem.innerHTML = el;
+                    list.appendChild(listItem);
+                }
+            });
+        }else {
+            document.getElementById("antoTitle").style.display = "none";
+        }
+    };
+    dict1();
+    dict2();
+    synonims();
+    antonims();
+</script>
+</body>
 </html>

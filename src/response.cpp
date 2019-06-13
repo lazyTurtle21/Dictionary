@@ -31,13 +31,15 @@ void response::handle_request(const request &req, reply &rep) {
         std::string lower_word = boost::algorithm::to_lower_copy(word);
         std::string upper_word = boost::algorithm::to_upper_copy(word);
 
-        html_res = (boost::format(html_res) % word % search_word(lower_word, dict1)).str(); // VSTAVLYAT HERE
-        if (!word.empty()){
+        std::vector<std::string> res(3);
+        if (!word.empty()) {
             auto dict_to_search = dicts2[upper_word[0] - 'A'];
-            auto results = search_word_in_dict2(upper_word, dict_to_search);
-            std::cout << results[0] << "\n";   // DEFINITIONS
-            std::cout << results[1] << "\n";   // ANTONYMS
-            std::cout << results[2] << "\n";   // SYNONYMS
+            res = search_word_in_dict2(upper_word, dict_to_search);
+            std::cout << res[0] << "\n";   // DEFINITIONS
+            std::cout << res[1] << "\n";   // ANTONYMS
+            std::cout << res[2] << "\n";   // SYNONYMS
+            html_res = (boost::format(html_res)
+                        % word % search_word(lower_word, dict1) % res[0] % res[1] % res[2]).str(); // VSTAVLYAT HERE
         }
     } else {
         rep.status = reply::not_found;
