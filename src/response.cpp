@@ -6,8 +6,6 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <iostream>
 #include <boost/algorithm/string.hpp>
-#include <boost/locale.hpp>
-
 
 #include "../inc/structs.hpp"
 
@@ -30,7 +28,6 @@ void response::handle_request(const request &req, reply &rep) {
         rep.status = reply::ok;
         html_res = this->word_def_html;
         std::string word = req.uri.substr(req.uri.find("word=") + 5);
-
         std::string lower_word = boost::algorithm::to_lower_copy(word);
         std::string upper_word = boost::algorithm::to_upper_copy(word);
 
@@ -38,12 +35,10 @@ void response::handle_request(const request &req, reply &rep) {
         if (!word.empty()) {
             auto dict_to_search = dicts2[upper_word[0] - 'A'];
             res = search_word_in_dict2(upper_word, dict_to_search);
-            std::cout << res[0] << "\n";   // DEFINITIONS
-            std::cout << res[1] << "\n";   // ANTONYMS
-            std::cout << res[2] << "\n";   // SYNONYMS
-            html_res = (boost::format(html_res)
-                         % res[0] % res[1] ).str(); // VSTAVLYAT HERE
         }
+        html_res = (boost::format(html_res)
+                    % word % search_word(lower_word, dict1) % res[0] % res[1] % res[2]).str(); // VSTAVLYAT HERE
+
     } else {
         rep.status = reply::not_found;
         html_res = "<html><body><h1>404 Not Found</h1><p>There's nothing here.</p></body></html>";
